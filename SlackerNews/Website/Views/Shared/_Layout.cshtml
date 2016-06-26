@@ -1,0 +1,51 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    <!-- Favicons -->
+    <link href="/Content/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/Content/images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/Content/images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/Content/images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/Content/images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/Content/images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/Content/images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/Content/images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/Content/images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/Content/images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/Content/images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/Content/images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/Content/images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/Content/images/favicon-16x16.png">
+    <link rel="manifest" href="/Content/images/manifest.json">
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="container body-content">
+        <h1 class="text-center" style="margin-bottom:20px">Slacker News*</h1>
+
+        <div class="bordered">
+            @RenderBody()
+        </div>
+
+        <footer class="text-center bordered" style="margin-top: 50px; padding: 20px;">
+            <p>
+                *All data from HackerNews, pulled using the <a href="https://github.com/HackerNews/API">available API</a> hosted on firebase
+            </p>
+            <p>
+                This view of the data created by John Zumbrum, check me out at <a href="http://johnzumbrum.com">johnzumbrum.com</a>
+            </p>    
+            <a href="http://johnzumbrum.com"><img height="74" src="/Content/images/JZSealLogoDarkOrange230x230.png" /></a>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>
