@@ -20,10 +20,10 @@ namespace Common
 
             if(delta.Hours <= 1)
             {
-                return $"<1 hour ago";
+                return $"<1h ago";
             }
 
-            return $"{delta.Hours} hours ago";
+            return $"{delta.Hours}h ago";
         }
     }
 }
