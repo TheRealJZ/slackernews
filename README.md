@@ -32,6 +32,9 @@ Contributions are welcome! Select an issue and start a conversation, or feel fre
 # License
 [MIT License](https://tldrlegal.com/license/mit-license)
 
+# Versioning
+This project uses [semantic versioning.](http://semver.org/)
+
 # Competitor Analysis
 Most other sites out there making it easy to consume hacker news seem to have stopped far too short.  There is so much potential here!  Below is a quick summary of each of the major competitors for SlackerNews.  
 
