@@ -1,6 +1,8 @@
 # Repo-specific settings
+# so we don't share login details publicly
 *.config
-
+!packages.config
+!NLog.config
 
 # General Visual Studio GitIgnore file
 
