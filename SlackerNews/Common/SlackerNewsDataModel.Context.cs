@@ -26,5 +26,6 @@ namespace Common
         }
     
         public virtual DbSet<article> articles { get; set; }
+        public virtual DbSet<section> sections { get; set; }
     }
 }

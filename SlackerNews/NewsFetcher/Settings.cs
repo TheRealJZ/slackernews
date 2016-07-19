@@ -12,12 +12,19 @@ namespace NewsFetcher
         public enum AppSettingKeys
         {
             HackernewsApiUrl,
+
             AlchemyApiUrl,
             AlchemyApiKey,
+
             SemantriaApiUrl,
             SemantriaApiKey,
             SemantriaApiSecret,
-            SemantriaApiConfiguration
+            SemantriaApiConfiguration,
+
+            IbmWatsonClassifierApiUrl,
+            IbmWatsonClassifierApiUsername,
+            IbmWatsonClassifierApiPassword,
+            IbmWatsonClassifierApiClassifierId
         }
 
         public static string Get(Settings.AppSettingKeys key)

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Semantria.Com;
 using Semantria.Com.Serializers;
 
-namespace NewsFetcher
+namespace NewsFetcher.Apis
 {
     class SemantriaApi
     {

@@ -6,6 +6,8 @@
     <edmx:Diagrams>
       <Diagram DiagramId="95bbd38343c3403297c428cb95782240" Name="Diagram1">
         <EntityTypeShape EntityType="SlackerNewsModel.article" Width="4.625" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="SlackerNewsModel.section" Width="1.5" PointX="0.75" PointY="5.625" />
+        <AssociationConnector Association="SlackerNewsModel.FK_articles_section" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

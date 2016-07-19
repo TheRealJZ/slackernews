@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Common;
 using NewsFetcher.ApiResponseObjects;
 using System.Net;
+using NewsFetcher.Apis;
 
 namespace NewsFetcher
 {
@@ -17,11 +18,21 @@ namespace NewsFetcher
         
         static void Main(string[] args)
         {
-            GetSemantriaSummaryForUrl("foo");
+            UpdateStatsForRecentArticles();
+            GetAndStoreMissingArticles(1000);
+
+            // Testing -------
+            //GetSemantriaSummaryForUrl("foo");
             //GetAlchemyTagsForUrl("http://herokeys.com/why-link-building-is-important-in-seo/");
-            //UpdateStatsForRecentArticles();
-            //GetAndStoreMissingArticles(1000);
+            //UpdateStatsForArticle(11980581);
+            //var api = new IbmWatsonClassifierApi();
+            //string id = api.CreateClassifierWithDataFile("C:\\GitHub\\Projects\\Personal\\SlackerNewsLogins\\IBMWatsonNaturalLanguageClassifierTrainingDatav0.2.0.csv");
+            //var classifier = new SectionClassifier();
+            //var section = classifier.GetSectionFromText("Foo 29.0.0 is out");
+            //int x = 5;
         }
+
+        #region Fetching New
 
         static void GetAndStoreMissingArticles(int? max = null)
         {
@@ -49,14 +60,58 @@ namespace NewsFetcher
                 }
             }
         }
+
+        static void GetAndStoreArticle(int hnArticleId)
+        {
+            NLog.LogManager.GetCurrentClassLogger().Trace($"Getting object id {hnArticleId} from {HackernewsApiUrl}");
+
+            var client = new RestClient(HackernewsApiUrl);
+            var request = new RestRequest($"item/{hnArticleId}.json");
+            var response = client.Execute<Item>(request);
+
+            if (response.ErrorException != null)
+            {
+                NLog.LogManager.GetCurrentClassLogger().Error(response.ErrorException);
+                throw response.ErrorException;
+            }
+            else
+            {
+                if (response.Data.type == ItemType.story)
+                {
+                    var dbEntity = response.Data.ToDbEntity();
+
+                    using (var context = new SlackerNewsEntities())
+                    {
+                        if (context.articles.Any(t => t.hn_article_id == dbEntity.hn_article_id))
+                        {
+                            NLog.LogManager.GetCurrentClassLogger().Trace($"Object id {hnArticleId} already exists");
+                            throw new Exception("Article already downloaded: " + dbEntity.hn_article_id);
+                        }
+
+                        NLog.LogManager.GetCurrentClassLogger().Trace($"Saving object id {hnArticleId} to database");
+                        var article = response.Data.ToDbEntity();
+                        context.articles.Add(article);
+                        context.SaveChanges();
+                    }
+                }
+                else
+                {
+                    NLog.LogManager.GetCurrentClassLogger().Trace($"Object id {hnArticleId} is not a story, type is {response.Data.type}");
+                }
+            }
+        }
         
+        #endregion
+
+        #region Updating Existing
+
         static void UpdateStatsForRecentArticles(int hoursSinceArticleCreated = 240)
         {
             int maxLocalArticleId = GetMaxArticleIdInLocalStore();
             int minLocalArticleIdInLastXHours = GetMinArticleIdCreatedLastXHoursInLocalStore(hoursSinceArticleCreated);
 
             // Only update recent articles
-            if(minLocalArticleIdInLastXHours != 0)
+            if (minLocalArticleIdInLastXHours != 0)
             {
                 List<int> articleIds;
 
@@ -71,9 +126,9 @@ namespace NewsFetcher
                         ToList();
                 }
 
-                if(articleIds.Any())
+                if (articleIds.Any())
                 {
-                    foreach(int i in articleIds)
+                    foreach (int i in articleIds)
                     {
                         try
                         {
@@ -88,16 +143,7 @@ namespace NewsFetcher
                 }
             }
         }
-
-        static int GetMinArticleIdCreatedLastXHoursInLocalStore(int hoursSinceArticleCreated)
-        {
-            using (var context = new SlackerNewsEntities())
-            {
-                DateTime createdSince = DateTime.Now.AddHours(-hoursSinceArticleCreated);
-                return context.articles.Where(t => t.create_datetime > createdSince).Min(t => t.hn_article_id) ?? 0;
-            }
-        }
-
+        
         static void UpdateStatsForArticle(int hnArticleId)
         {
             NLog.LogManager.GetCurrentClassLogger().Trace($"Updating stats for article {hnArticleId}");
@@ -120,6 +166,11 @@ namespace NewsFetcher
                         var dbEntity = context.articles.Single(t => t.hn_article_id == response.Data.id);
                         dbEntity.score = response.Data.score;
                         context.SaveChanges();
+
+                        // Update article with section
+                        UpdateSectionForArticle((int)dbEntity.hn_article_id);
+
+                        //SetSemanticAttributesForArticle((int)article.hn_article_id);
                     }
                 }
                 else
@@ -128,74 +179,38 @@ namespace NewsFetcher
                 }
             }
         }
-
-        static int GetMaxArticleIdFromRemote()
+                
+        static void UpdateSectionForArticle(int hnArticleId)
         {
-            var client = new RestClient(HackernewsApiUrl);
-            var request = new RestRequest("maxitem.json");
-            var response = client.Execute<int>(request);
-            return response.Data;
-        }
+            NLog.LogManager.GetCurrentClassLogger().Info("Updating section for article " + hnArticleId);
 
-        static int GetMaxArticleIdInLocalStore()
-        {
             using (var context = new SlackerNewsEntities())
             {
-                return context.articles.Max(t => t.hn_article_id) ?? 0;
-            }
-        }
+                var article = context.articles.Single(t => t.hn_article_id == hnArticleId);
 
-        static void GetAndStoreArticle(int hnArticleId)
-        {
-            NLog.LogManager.GetCurrentClassLogger().Trace($"Getting object id {hnArticleId} from {HackernewsApiUrl}");
-
-            var client = new RestClient(HackernewsApiUrl);
-            var request = new RestRequest($"item/{hnArticleId}.json");
-            var response = client.Execute<Item>(request);
-
-            if(response.ErrorException != null)
-            {
-                NLog.LogManager.GetCurrentClassLogger().Error(response.ErrorException);
-                throw response.ErrorException;
-            }
-            else
-            {
-                if(response.Data.type == ItemType.story)
+                if (article.score > Constants.ScoreThresholdForClassificationApi
+                    && article.api_fetch_date_classification == null)
                 {
-                    var dbEntity = response.Data.ToDbEntity();
-
-                    using (var context = new SlackerNewsEntities())
-                    {
-                        if(context.articles.Any(t => t.hn_article_id == dbEntity.hn_article_id ))
-                        {
-                            NLog.LogManager.GetCurrentClassLogger().Trace($"Object id {hnArticleId} already exists");
-                            throw new Exception("Article already downloaded: " + dbEntity.hn_article_id);
-                        }
-
-                        NLog.LogManager.GetCurrentClassLogger().Trace($"Saving object id {hnArticleId} to database");
-                        context.articles.Add(response.Data.ToDbEntity());
-                        context.SaveChanges();
-                    }
-                }
-                else
-                {
-                    NLog.LogManager.GetCurrentClassLogger().Trace($"Object id {hnArticleId} is not a story, type is {response.Data.type}");
+                    var classifier = new SectionClassifier();
+                    var section = classifier.GetSectionFromText(article.title);
+                    article.section_id = (int)section;
+                    article.api_fetch_date_classification = DateTime.UtcNow;
+                    context.SaveChanges();
                 }
             }
         }
 
-        static void GetSemanticAttributesForArticle(int hnArticleId)
+        static void UpdateSemanticAttributesForArticle(int hnArticleId)
         {
             NLog.LogManager.GetCurrentClassLogger().Info("Getting semantic attributes for article " + hnArticleId);
 
             using (var context = new SlackerNewsEntities())
             {
                 var article = context.articles.Single(t => t.hn_article_id == hnArticleId);
-
-                const int scoreThresholdForSemanticApis = 5;
-                if(article.score < scoreThresholdForSemanticApis)
+                               
+                if(article.score < Constants.ScoreThresholdForSemanticSummaryApi)
                 {
-                    NLog.LogManager.GetCurrentClassLogger().Info($"Article score is {article.score}. We only run API calls to get semantic data when score exceeds {scoreThresholdForSemanticApis}");
+                    NLog.LogManager.GetCurrentClassLogger().Info($"Article score is {article.score}. We only run API calls to get semantic data when score exceeds {Constants.ScoreThresholdForSemanticSummaryApi}");
                     return;
                 }
 
@@ -298,5 +313,36 @@ aintext in any way? Is this kind of attack still possible ?” he asks.";
             var semantria = new SemantriaApi();
             return semantria.Summarize(articleText);
         }
+
+        #endregion
+
+        #region Synchronization Status
+
+        static int GetMaxArticleIdFromRemote()
+        {
+            var client = new RestClient(HackernewsApiUrl);
+            var request = new RestRequest("maxitem.json");
+            var response = client.Execute<int>(request);
+            return response.Data;
+        }
+
+        static int GetMaxArticleIdInLocalStore()
+        {
+            using (var context = new SlackerNewsEntities())
+            {
+                return context.articles.Max(t => t.hn_article_id) ?? 0;
+            }
+        }
+        
+        static int GetMinArticleIdCreatedLastXHoursInLocalStore(int hoursSinceArticleCreated)
+        {
+            using (var context = new SlackerNewsEntities())
+            {
+                DateTime createdSince = DateTime.Now.AddHours(-hoursSinceArticleCreated);
+                return context.articles.Where(t => t.create_datetime > createdSince).Min(t => t.hn_article_id) ?? 0;
+            }
+        }
+
+        #endregion
     }
 }

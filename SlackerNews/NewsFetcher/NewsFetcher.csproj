@@ -92,11 +92,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiResponseObjects\IbmWatsonClassifierClass.cs" />
+    <Compile Include="ApiResponseObjects\IbmWatsonClassifierClassifier.cs" />
+    <Compile Include="ApiResponseObjects\IbmWatsonClassifierCreateResponse.cs" />
+    <Compile Include="ApiResponseObjects\IbmWatsonClassifierListResponse.cs" />
+    <Compile Include="ApiResponseObjects\IbmWatsonClassifierClassifyResponse.cs" />
     <Compile Include="ApiResponseObjects\Item.cs" />
+    <Compile Include="Apis\IbmWatsonClassifierApi.cs" />
+    <Compile Include="SectionClassifier.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SemantriaApi.cs" />
+    <Compile Include="Apis\SemantriaApi.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
