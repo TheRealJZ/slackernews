@@ -1,0 +1,17 @@
+﻿@model List<Common.article>
+@{
+    ViewBag.Title = "Slacker News " + ViewBag.SectionName;
+}
+
+<h1>Top @ViewBag.SectionName Stories</h1>
+@if (Model != null && Model.Any())
+{
+    foreach (var article in Model)
+    {
+        Html.RenderPartial("_article", article);
+    }
+}
+else
+{
+    @: No recent top articles in this section, please check back later!
+}

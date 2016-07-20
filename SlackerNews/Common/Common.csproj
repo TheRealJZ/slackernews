@@ -58,6 +58,7 @@
     <Compile Include="DateTimeHelpers.cs" />
     <Compile Include="Partial\article.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
     <Compile Include="section.cs">
       <DependentUpon>SlackerNewsDataModel.tt</DependentUpon>
     </Compile>

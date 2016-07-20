@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Website.Models;
 
 namespace Website.Controllers
 {
@@ -11,16 +12,37 @@ namespace Website.Controllers
     {
         public ActionResult Index()
         {
-            List<article> articles;
-
-            // TODO: Move to repository method
-            // TODO: Add filtering capabilities
-            using (var context = new SlackerNewsEntities())
+            var model = new HomePageModel
             {
-                var last24 = DateTime.UtcNow.AddDays(-1);
-                articles = context.articles.Where(t => t.create_datetime > last24).OrderByDescending(t => t.score).Take(15).ToList();
-            }
+                Data = new List<DisplaySectionModel>()
+            };
 
+            var sections = Repository.GetSections();
+            foreach(var s in sections)
+            {
+                var sectionArticles = Repository.GetArticles((Constants.Section)s.id, 3);
+                model.Data.Add(new DisplaySectionModel { Section = s, Articles = sectionArticles });
+            }
+            
+            return View(model);
+        }
+
+        public ActionResult OldIndex()
+        {
+            var articles = Repository.GetArticles();
+            return View(articles);
+        }
+
+        public ActionResult Section(Constants.Section section)
+        {
+            var sectionEntry = Repository.GetSection(section);
+            if(sectionEntry == null)
+            {
+                return HttpNotFound();
+            }
+            ViewBag.SectionName = sectionEntry.name;
+
+            var articles = Repository.GetArticles(section);
             return View(articles);
         }
     }
