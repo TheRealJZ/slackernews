@@ -18,7 +18,7 @@ namespace NewsFetcher
         
         static void Main(string[] args)
         {
-            UpdateStatsForRecentArticles();
+            UpdateStatsForRecentArticles(24);
             GetAndStoreMissingArticles(1000);
 
             // Testing -------
@@ -90,6 +90,7 @@ namespace NewsFetcher
 
                         NLog.LogManager.GetCurrentClassLogger().Trace($"Saving object id {hnArticleId} to database");
                         var article = response.Data.ToDbEntity();
+                        article.section_id = (int)Constants.Section.General;
                         context.articles.Add(article);
                         context.SaveChanges();
                     }

@@ -33,7 +33,3 @@ GO
 ALTER TABLE articles
 ADD			api_fetch_date_classification DATETIME
 GO
-
-ALTER TABLE articles
-ADD			api_fetch_date_classification DATETIME
-GO
