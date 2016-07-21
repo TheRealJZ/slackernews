@@ -1,0 +1,12 @@
+﻿@model Common.article
+
+<div class="news">
+    <div class="news-left text-right">
+        <a href="https://news.ycombinator.com/item?id=@Model.hn_article_id">
+            @Model.score pts<br />@Model.GetFormattedTimeSinceCreated()
+        </a>
+    </div>
+    <div class="news-body">
+        <a href="@Model.url">@Model.title</a>
+    </div>
+</div>

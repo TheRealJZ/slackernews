@@ -20,9 +20,36 @@
           <Property Name="top_comment_text" Type="nvarchar(max)" />
           <Property Name="semantic_summary" Type="nvarchar(max)" />
           <Property Name="tags" Type="nvarchar(max)" />
+          <Property Name="section_id" Type="int" />
+          <Property Name="api_fetch_date_classification" Type="datetime" />
         </EntityType>
+        <EntityType Name="sections">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="display_order" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_articles_section">
+          <End Role="sections" Type="Self.sections" Multiplicity="0..1" />
+          <End Role="articles" Type="Self.articles" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="sections">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="articles">
+              <PropertyRef Name="section_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SlackerNewsModelStoreContainer">
           <EntitySet Name="articles" EntityType="Self.articles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sections" EntityType="Self.sections" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_articles_section" Association="Self.FK_articles_section">
+            <End Role="sections" EntitySet="sections" />
+            <End Role="articles" EntitySet="articles" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -43,10 +70,39 @@
           <Property Name="top_comment_text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="semantic_summary" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="tags" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="section_id" Type="Int32" />
+          <NavigationProperty Name="section" Relationship="SlackerNewsModel.FK_articles_section" FromRole="article" ToRole="section" />
+          <Property Name="api_fetch_date_classification" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityContainer Name="SlackerNewsEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="articles" EntityType="Self.article" />
+          <EntitySet Name="sections" EntityType="SlackerNewsModel.section" />
+          <AssociationSet Name="FK_articles_section" Association="SlackerNewsModel.FK_articles_section">
+            <End Role="section" EntitySet="sections" />
+            <End Role="article" EntitySet="articles" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="section">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="display_order" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="articles" Relationship="SlackerNewsModel.FK_articles_section" FromRole="section" ToRole="article" />
+        </EntityType>
+        <Association Name="FK_articles_section">
+          <End Type="SlackerNewsModel.section" Role="section" Multiplicity="0..1" />
+          <End Type="SlackerNewsModel.article" Role="article" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="section">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="article">
+              <PropertyRef Name="section_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -56,6 +112,8 @@
           <EntitySetMapping Name="articles">
             <EntityTypeMapping TypeName="SlackerNewsModel.article">
               <MappingFragment StoreEntitySet="articles">
+                <ScalarProperty Name="api_fetch_date_classification" ColumnName="api_fetch_date_classification" />
+                <ScalarProperty Name="section_id" ColumnName="section_id" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="hn_article_id" ColumnName="hn_article_id" />
                 <ScalarProperty Name="title" ColumnName="title" />
@@ -67,6 +125,15 @@
                 <ScalarProperty Name="top_comment_text" ColumnName="top_comment_text" />
                 <ScalarProperty Name="semantic_summary" ColumnName="semantic_summary" />
                 <ScalarProperty Name="tags" ColumnName="tags" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sections">
+            <EntityTypeMapping TypeName="SlackerNewsModel.section">
+              <MappingFragment StoreEntitySet="sections">
+                <ScalarProperty Name="display_order" ColumnName="display_order" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

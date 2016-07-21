@@ -25,5 +25,9 @@ namespace Common
         public string top_comment_text { get; set; }
         public string semantic_summary { get; set; }
         public string tags { get; set; }
+        public Nullable<int> section_id { get; set; }
+        public Nullable<System.DateTime> api_fetch_date_classification { get; set; }
+    
+        public virtual section section { get; set; }
     }
 }
