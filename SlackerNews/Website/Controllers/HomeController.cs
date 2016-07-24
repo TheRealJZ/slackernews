@@ -10,6 +10,7 @@ namespace Website.Controllers
 {
     public class HomeController : Controller
     {
+        [OutputCache(Duration = 600, VaryByParam = "none")]
         public ActionResult Index()
         {
             var model = new HomePageModel
@@ -29,7 +30,8 @@ namespace Website.Controllers
 
             return View(model);
         }
-        
+
+        [OutputCache(Duration = 600, VaryByParam = "section")]
         public ActionResult Section(Constants.Section section)
         {
             var sectionEntry = Repository.GetSection(section);
