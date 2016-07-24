@@ -1,6 +1,41 @@
-﻿body {
-    padding-top: 20px;
+﻿h1, .h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+h2, .h2 {
+    font-size: 21px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+h3, .h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+h4, .h4 {
+    font-size: 16px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+h5, .h5 {
+    font-size: 14px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+h6, .h6 {
+    font-size: 12px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+body {
+    padding-top: 5px;
     padding-bottom: 20px;
+}
+
+.navbar {
+    margin-bottom: 5px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -33,6 +68,14 @@ textarea {
         padding-left:5px;
         padding-right:5px;
     }
+}
+
+.news-section {
+    margin-bottom: 20px;
+}
+
+.news-section h1 {
+    margin-bottom: 5px;
 }
 
 .news-list {

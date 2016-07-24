@@ -7,23 +7,25 @@
 {
     foreach (var sModel in Model.Data)
     {
-        <h1>@sModel.Section.name</h1>
-        if (sModel.Articles != null && sModel.Articles.Any())
-        {
-            <div class="news-list">
-                @foreach (var a in sModel.Articles)
-                {
-                    Html.RenderPartial("_article", a);
-                }
-            </div>
-            <span class="news-more">
-                <a href="@Url.Action("Section", new { section = sModel.Section.id })">See all @sModel.Section.name stories <span class="glyphicon glyphicon-arrow-right"></span></a>
-            </span>
-        }
-        else
-        {
-            <div>No articles in this section, check back later</div>
-        }
+        <div class="news-section">
+            <h1>@sModel.Section.name</h1>
+            @if (sModel.Articles != null && sModel.Articles.Any())
+            {
+                <div class="news-list">
+                    @foreach (var a in sModel.Articles)
+                    {
+                        Html.RenderPartial("_article", a);
+                    }
+                </div>
+                <span class="news-more">
+                    <a href="@Url.Action("Section", new { section = sModel.Section.id })">See all @sModel.Section.name stories <span class="glyphicon glyphicon-arrow-right"></span></a>
+                </span>
+            }
+            else
+            {
+                <div>No articles in this section, check back later</div>
+            }
+        </div>
     }
 }
 else

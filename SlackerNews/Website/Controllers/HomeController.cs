@@ -23,16 +23,13 @@ namespace Website.Controllers
                 var sectionArticles = Repository.GetArticles((Constants.Section)s.id, 3);
                 model.Data.Add(new DisplaySectionModel { Section = s, Articles = sectionArticles });
             }
-            
+
+            // @TODO: replace with more scalable method
+            ViewBag.Sections = sections;
+
             return View(model);
         }
-
-        public ActionResult OldIndex()
-        {
-            var articles = Repository.GetArticles();
-            return View(articles);
-        }
-
+        
         public ActionResult Section(Constants.Section section)
         {
             var sectionEntry = Repository.GetSection(section);
@@ -41,6 +38,10 @@ namespace Website.Controllers
                 return HttpNotFound();
             }
             ViewBag.SectionName = sectionEntry.name;
+
+            // @TODO: replace with more scalable method
+            var sections = Repository.GetSections();
+            ViewBag.Sections = sections;
 
             var articles = Repository.GetArticles(section);
             return View(articles);

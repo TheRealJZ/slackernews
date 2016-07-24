@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System.Linq
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -26,9 +27,42 @@
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
-    <div class="container body-content">
-        <h1 class="text-center" style="margin-bottom:20px"><a href="/">Slacker News</a></h1>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-target" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">SlackerNews</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-target">
+                <ul class="nav navbar-nav">
+                    
+                    @if (ViewBag.Sections != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Sections <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach (var s in ViewBag.Sections)
+                                {
+                                    <li><a href="@Url.Action("Section", new { section = s.id })">@s.name</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
 
+                </ul>
+                
+                    @Html.Partial("_mailchimpSignup")
+               
+            </div>
+        </nav></div>
+    
+    <div class="container body-content">
         <div class="bordered">
             @RenderBody()
         </div>
@@ -38,7 +72,10 @@
                 All data from HackerNews, pulled using the <a href="https://github.com/HackerNews/API">available API</a> hosted on firebase
             </p>
             <p>
-                This view of the data created by John Zumbrum, check me out at <a href="http://johnzumbrum.com">johnzumbrum.com</a>
+                Powered by <a href="http://www.ibm.com/watson/developercloud/nl-classifier.html">IBM Watson&trade; Natural Language Classifier</a>
+            </p>
+            <p>
+                A project by John Zumbrum, check me out at <a href="http://johnzumbrum.com">johnzumbrum.com</a>
             </p>    
             <a href="http://johnzumbrum.com"><img height="74" src="/Content/images/JZSealLogoDarkOrange230x230.png" /></a>
         </footer>
