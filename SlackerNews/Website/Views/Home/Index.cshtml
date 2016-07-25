@@ -8,7 +8,7 @@
     foreach (var sModel in Model.Data)
     {
         <div class="news-section">
-            <h1>@sModel.Section.name</h1>
+            <h1 class="section-heading">@sModel.Section.name</h1>
             @if (sModel.Articles != null && sModel.Articles.Any())
             {
                 <div class="news-list">

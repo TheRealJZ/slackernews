@@ -236,6 +236,7 @@
     <Content Include="Views\Shared\_article.cshtml" />
     <Content Include="Views\Home\OldIndex.cshtml" />
     <Content Include="Views\Shared\_mailchimpSignup.cshtml" />
+    <Content Include="Views\Shared\_mailchimpSignupFooter.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -32,6 +32,7 @@ h6, .h6 {
 body {
     padding-top: 5px;
     padding-bottom: 20px;
+    overflow-y: scroll;
 }
 
 .navbar {
@@ -62,12 +63,20 @@ textarea {
     border-top: 2px solid #ea7c0e;
 }
 
+.bordered-subtle {
+    border-top: 1px solid #ccc;
+}
+
 @media (max-width:768px) {
     /* Maximize screen real-estate by taking it to the edges of the phone, 15px is just too much wasted space */
     .container {
         padding-left:5px;
         padding-right:5px;
     }
+}
+
+.section-heading {
+    border-bottom: 1px solid #ccc;
 }
 
 .news-section {
