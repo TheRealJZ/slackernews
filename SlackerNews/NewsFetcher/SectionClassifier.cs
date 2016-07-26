@@ -10,7 +10,7 @@ namespace NewsFetcher
 {
     class SectionClassifier
     {
-        const decimal ThresholdForValidClassification = .6m;
+        const decimal ThresholdForValidClassification = .65m;
         Dictionary<string, Constants.Section> Mappings;
 
         public SectionClassifier()
