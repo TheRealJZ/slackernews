@@ -15,7 +15,7 @@ namespace Common
     public partial class article
     {
         public int id { get; set; }
-        public Nullable<int> hn_article_id { get; set; }
+        public int hn_article_id { get; set; }
         public string title { get; set; }
         public string content { get; set; }
         public System.DateTime create_datetime { get; set; }

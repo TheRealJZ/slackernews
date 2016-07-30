@@ -26,7 +26,7 @@ namespace NewsFetcher
             //GetAlchemyTagsForUrl("http://herokeys.com/why-link-building-is-important-in-seo/");
             //UpdateStatsForArticle(11980581);
             //var api = new IbmWatsonClassifierApi();
-            //string id = api.CreateClassifierWithDataFile("C:\\GitHub\\Projects\\Personal\\SlackerNewsLogins\\IBMWatsonNaturalLanguageClassifierTrainingDatav0.2.0.csv");
+            //var response = api.CreateClassifierWithDataFile("C:\\GitHub\\Projects\\Personal\\SlackerNewsLogins\\IBMWatsonNaturalLanguageClassifierTrainingDatav0.3.0.csv");
             //var classifier = new SectionClassifier();
             //var section = classifier.GetSectionFromText("Foo 29.0.0 is out");
             //int x = 5;
@@ -331,7 +331,7 @@ aintext in any way? Is this kind of attack still possible ?” he asks.";
         {
             using (var context = new SlackerNewsEntities())
             {
-                return context.articles.Max(t => t.hn_article_id) ?? 0;
+                return context.articles?.Max(t => t.hn_article_id) ?? 0;
             }
         }
         
@@ -340,7 +340,7 @@ aintext in any way? Is this kind of attack still possible ?” he asks.";
             using (var context = new SlackerNewsEntities())
             {
                 DateTime createdSince = DateTime.Now.AddHours(-hoursSinceArticleCreated);
-                return context.articles.Where(t => t.create_datetime > createdSince).Min(t => t.hn_article_id) ?? 0;
+                return context.articles.Where(t => t.create_datetime > createdSince)?.Min(t => t.hn_article_id) ?? 0;
             }
         }
 

@@ -1,10 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using System.Linq
+<!DOCTYPE html>
 <html>
 <head>
+    <title>@ViewBag.Title</title>
+    <meta name="description" content="The best of HackerNews, powered by AI. Curated, top stories, in a weekly digest email.">
+    <meta name="keywords" content="SlackerNews,AI,HackerNews,Digest,Startup,IBM Watson">
+    <meta name="author" content="John Zumbrum">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title</title>
-
+    
     <!-- Favicons -->
     <link href="/Content/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
     <link rel="apple-touch-icon" sizes="57x57" href="/Content/images/apple-icon-57x57.png">
@@ -22,30 +26,110 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/Content/images/favicon-16x16.png">
     <link rel="manifest" href="/Content/images/manifest.json">
 
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @* CSS Files go within the head section so the page can start rendering immediately as the HTML streams across the network *@
+    <!-- Bootstrap - Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <link href="//cdn-images.mailchimp.com/embedcode/horizontal-slim-10_7.css" rel="stylesheet" type="text/css">
+    <style type="text/css">
+        #mc_embed_signup form {
+            padding: 0;
+        }
+
+        #mc_embed_signup {
+            font: 14px Helvetica,Arial,sans-serif;
+            width: 100%;
+        }
+
+            #mc_embed_signup .button {
+                background-color: #ea7c0e;
+            }
+
+            #mc_embed_signup input.email {
+                width: 150px;
+            }
+    </style>
+
+    <!-- Main Site StyleSheet goes last so we can override library defaults-->
+    <link rel="stylesheet" type="text/css" href="~/Content/Site02.css" />
 </head>
 <body>
+    <div class="container">
+        <nav class="navbar navbar-default">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-target" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">SlackerNews</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-collapse-target">
+                <ul class="nav navbar-nav">
+                    <li><a href="@Url.Action("About", "Home")">About</a></li>
+                    @if (ViewBag.Sections != null)
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Sections <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                @foreach (var s in ViewBag.Sections)
+                                {
+                                    <li><a href="@Url.Action("Section", new { section = s.id })">@s.name</a></li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                </ul>
+                @*
+                    Address how to have two mailchimp signup forms in a single page later.  IDs are conflicting, and this is not top priority.
+                    @Html.Partial("_mailchimpSignup")
+                *@
+               
+            </div>
+        </nav></div>
+    
     <div class="container body-content">
-        <h1 class="text-center" style="margin-bottom:20px"><a href="/">Slacker News</a></h1>
-
-        <div class="bordered">
+        <div>
             @RenderBody()
         </div>
 
-        <footer class="text-center bordered" style="margin-top: 50px; padding: 20px;">
+        @Html.Partial("_mailchimpSignupFooter")
+        
+        <footer class="text-center bordered" style="margin-top: 30px; padding: 20px;">
             <p>
                 All data from HackerNews, pulled using the <a href="https://github.com/HackerNews/API">available API</a> hosted on firebase
             </p>
             <p>
-                This view of the data created by John Zumbrum, check me out at <a href="http://johnzumbrum.com">johnzumbrum.com</a>
+                Powered by <a href="http://www.ibm.com/watson/developercloud/nl-classifier.html">IBM Watson&trade; Natural Language Classifier</a>
+            </p>
+            <p>
+                A project by John Zumbrum, check me out at <a href="http://johnzumbrum.com">johnzumbrum.com</a>
             </p>    
             <a href="http://johnzumbrum.com"><img height="74" src="/Content/images/JZSealLogoDarkOrange230x230.png" /></a>
         </footer>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    @* Javascript files go last so that they don't hold up progressive loading *@
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    
+    <!-- Bootstrap - Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-72577829-3', 'auto');
+      ga('send', 'pageview');
+
+    </script>
 </body>
 </html>

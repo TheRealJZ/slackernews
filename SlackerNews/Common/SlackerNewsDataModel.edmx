@@ -10,7 +10,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="hn_article_id" Type="int" />
+          <Property Name="hn_article_id" Type="int" Nullable="false" />
           <Property Name="title" Type="nvarchar(max)" />
           <Property Name="content" Type="nvarchar(max)" />
           <Property Name="create_datetime" Type="datetime" Nullable="false" />
@@ -60,7 +60,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="hn_article_id" Type="Int32" />
+          <Property Name="hn_article_id" Type="Int32" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="content" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="create_datetime" Type="DateTime" Precision="3" Nullable="false" />
