@@ -31,6 +31,16 @@ namespace Website.Controllers
             return View(model);
         }
 
+        [OutputCache(Duration = 600, VaryByParam = "none")]
+        public ActionResult About()
+        {
+            // @TODO: replace with more scalable method
+            var sections = Repository.GetSections();
+            ViewBag.Sections = sections;
+
+            return View();
+        }
+
         [OutputCache(Duration = 600, VaryByParam = "section")]
         public ActionResult Section(Constants.Section section)
         {
