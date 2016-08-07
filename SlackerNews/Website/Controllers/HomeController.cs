@@ -57,6 +57,7 @@ namespace Website.Controllers
             ViewBag.SectionId = (int)section;
             ViewBag.GroupBy = groupBy;
 
+            var articles = Repository.GetArticles(section, 15, groupBy);
             return View(articles);
         }
     }
