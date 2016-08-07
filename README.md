@@ -8,23 +8,27 @@ Hello! SlackerNews is a project with a goal of making the content of HackerNews 
 
 # Roadmap
 Phase 1
-- Regularly pull HN data through FireBase api
-- Very simple website showing top x stories pulled
+- <strike>Regularly pull HN data through FireBase api</strike>
+- <strike>Very simple website showing top x stories pulled</strike>
 
 Phase 2
-- Semantic summaries and categorization of content
-- Filtering using semantic tags
+- <strike>Auto-categorization of content</strike>
 
 Phase 3
 - Email newsletter 
-- Set up analytics
+- <strike>Set up analytics</strike>
+- <strike>Page load times</strike>
 
 Phase 4
+- <strike>Ability to handle HackerNews load</strike>
 - Show HackerNews post
 - Polish website and email experience, respond to HN feedback
 
 Phase 5
 - Machine Learning
+- Semantic summaries 
+- Tagging
+- Filtering using tags
 
 # Contributing
 Contributions are welcome! Select an issue and start a conversation, or feel free to contact me directly about new feature suggestions.

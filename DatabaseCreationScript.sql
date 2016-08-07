@@ -31,3 +31,5 @@ GO
 CREATE USER slackernews_user FOR LOGIN slackernews_user
 EXECUTE sp_addrolemember N'db_datawriter', N'slackernews_user'
 EXECUTE sp_addrolemember N'db_datareader', N'slackernews_user'
+
+-- make sure to enable sql server logins for your SQL Server instance!
