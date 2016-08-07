@@ -21,7 +21,7 @@ namespace Website.Controllers
             var sections = Repository.GetSections();
             foreach(var s in sections)
             {
-                var sectionArticles = Repository.GetArticles((Constants.Section)s.id, 3);
+                var sectionArticles = Repository.GetArticles((Constants.Section)s.id, 5);
                 model.Data.Add(new DisplaySectionModel { Section = s, Articles = sectionArticles });
             }
 
@@ -41,8 +41,8 @@ namespace Website.Controllers
             return View();
         }
 
-        [OutputCache(Duration = 600, VaryByParam = "section")]
-        public ActionResult Section(Constants.Section section)
+        [OutputCache(Duration = 600, VaryByParam = "section;groupBy")]
+        public ActionResult Section(Constants.Section section, Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
         {
             var sectionEntry = Repository.GetSection(section);
             if(sectionEntry == null)
@@ -54,8 +54,10 @@ namespace Website.Controllers
             // @TODO: replace with more scalable method
             var sections = Repository.GetSections();
             ViewBag.Sections = sections;
+            ViewBag.SectionId = (int)section;
+            ViewBag.GroupBy = groupBy;
 
-            var articles = Repository.GetArticles(section);
+            var articles = Repository.GetArticles(section, 15, groupBy);
             return View(articles);
         }
     }

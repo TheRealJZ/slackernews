@@ -39,6 +39,18 @@ body {
     margin-bottom: 5px;
 }
 
+.nav-pills > li.active > a, 
+.nav-pills > li.active > a:focus, 
+.nav-pills > li.active > a:hover {
+    background-color: #ea7c0e;
+}
+
+.nav-pills {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -79,11 +91,16 @@ textarea {
     border-bottom: 1px solid #ccc;
 }
 
+#ThisWeekInTech {
+    /*background-color: #ccc;*/
+}
+
 .news-section {
     margin-bottom: 20px;
 }
 
-.news-section h1 {
+.news-section h1,
+.news-section h2 {
     margin-bottom: 5px;
 }
 

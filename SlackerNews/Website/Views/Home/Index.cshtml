@@ -1,14 +1,20 @@
-﻿@model Website.Models.HomePageModel
+﻿@using Common
+@model Website.Models.HomePageModel
 @{
     ViewBag.Title = "Slacker News - Top Hacker News Stories";
 }
+
+<h1 id="ThisWeekInTech">
+    <span class="hidden-xs"><small>@DateTimeHelpers.ThisWeekFormatted</small><br /></span>
+    This week in tech<span class="hidden-xs"> - Top Stories by Section</span>
+</h1>
 
 @if (Model != null && Model.Data != null && Model.Data.Any())
 {
     foreach (var sModel in Model.Data)
     {
         <div class="news-section">
-            <h1 class="section-heading">@sModel.Section.name</h1>
+            <h2 class="section-heading">@sModel.Section.name</h2>
             @if (sModel.Articles != null && sModel.Articles.Any())
             {
                 <div class="news-list">
