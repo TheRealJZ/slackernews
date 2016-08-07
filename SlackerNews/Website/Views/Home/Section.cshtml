@@ -1,9 +1,26 @@
-﻿@model List<Common.article>
+﻿@using Common
+@model List<Common.article>
 @{
     ViewBag.Title = "Slacker News " + ViewBag.SectionName;
 }
 
-<h1>Top @ViewBag.SectionName Stories</h1>
+<h1>Top 15 @ViewBag.SectionName Stories</h1>
+
+<ul class="nav nav-pills">
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.ThisWeek ? "active" : "")">
+        <a href="@Url.Action("Section", new { section = ViewBag.SectionId, groupBy = Repository.Grouping.ThisWeek })">This Week</a>
+    </li>
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.LastWeek ? "active" : "")">
+        <a href="@Url.Action("Section", new { section = ViewBag.SectionId, groupBy = Repository.Grouping.LastWeek })">Last Week</a>
+    </li>
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.ThisMonth ? "active" : "")">
+        <a href="@Url.Action("Section", new { section = ViewBag.SectionId, groupBy = Repository.Grouping.ThisMonth })">This Month</a>
+    </li>
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.LastMonth ? "active" : "")">
+        <a href="@Url.Action("Section", new { section = ViewBag.SectionId, groupBy = Repository.Grouping.LastMonth })">Last Month</a>
+    </li>
+</ul>
+
 @if (Model != null && Model.Any())
 {
     <div class="news-list">

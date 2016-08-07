@@ -13,6 +13,7 @@ namespace Website
         public static void AddCustomRoute(this RouteCollection routes, string routeText, Constants.Section section)
         {
             string sectionName = Enum.GetName(typeof(Constants.Section), section);
+            
             routes.MapRoute(
                 "sections/" + sectionName,
                 routeText,

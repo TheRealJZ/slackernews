@@ -1,41 +1,90 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DT = Common.DateTimeHelpers;
 
 namespace Common
 {
     public class Repository
-    {
-        static DateTime Last24
+    {  
+        public enum Grouping
         {
-            get
-            {
-                return DateTime.UtcNow.AddDays(-1);
-            }
+            ThisWeek,
+            LastWeek,
+            ThisMonth,
+            LastMonth
         }
 
-        public static List<article> GetArticles(int numArticles = 15)
+        static DateTime StartForGrouping(Grouping groupBy)
+        {
+            // Default to this week
+            DateTime start = DT.ThisWeek;
+
+            switch (groupBy)
+            {
+                case Grouping.LastWeek:
+                    start = DT.LastWeek;
+                    break;
+
+                case Grouping.ThisMonth:
+                    start = DT.ThisMonth;
+                    break;
+
+                case Grouping.LastMonth:
+                    start = DT.LastMonth;
+                    break;
+            }
+
+            return start;
+        }
+
+        static DateTime EndForGrouping(Grouping groupBy)
+        {
+            // Default to this week
+            DateTime end = DateTime.UtcNow;
+
+            switch (groupBy)
+            {
+                case Grouping.LastWeek:
+                    end = DT.ThisWeek;
+                    break;
+                    
+                case Grouping.LastMonth:
+                    end = DT.ThisMonth;
+                    break;
+            }
+
+            return end;
+        }
+
+        public static List<article> GetArticles(int numArticles = 15, Grouping groupBy = Grouping.ThisWeek)
         {
             using (var context = new SlackerNewsEntities())
             {
+                DateTime start = StartForGrouping(groupBy);
+                DateTime end = EndForGrouping(groupBy);
+
                 return context.articles
-                    .Where(t => t.create_datetime > Last24)
+                    .Where(t => t.create_datetime > start && t.create_datetime < end)
                     .OrderByDescending(t => t.score)
                     .Take(numArticles)
+                    .OrderByDescending(t => t.create_datetime)
                     .ToList();
             }
         } 
 
-        public static List<article> GetArticles(Constants.Section section, int numArticles = 15)
+        public static List<article> GetArticles(Constants.Section section, int numArticles = 15, Grouping groupBy = Grouping.ThisWeek)
         {
             using (var context = new SlackerNewsEntities())
             {
+                DateTime start = StartForGrouping(groupBy);
+                DateTime end = EndForGrouping(groupBy);
+                
                 return context.articles
-                    .Where(t => t.create_datetime > Last24 && t.section_id == (int)section)
+                    .Where(t => t.create_datetime > start && t.create_datetime < end && t.section_id == (int)section)
                     .OrderByDescending(t => t.score)
                     .Take(numArticles)
+                    .OrderByDescending(t => t.create_datetime)
                     .ToList();
             }
         }

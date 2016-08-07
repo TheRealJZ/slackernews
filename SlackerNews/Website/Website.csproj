@@ -215,7 +215,7 @@
     <Content Include="Content\images\ms-icon-70x70.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site02.css" />
+    <Content Include="Content\Site03.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
