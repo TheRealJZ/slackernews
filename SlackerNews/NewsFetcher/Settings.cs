@@ -24,7 +24,10 @@ namespace NewsFetcher
             IbmWatsonClassifierApiUrl,
             IbmWatsonClassifierApiUsername,
             IbmWatsonClassifierApiPassword,
-            IbmWatsonClassifierApiClassifierId
+            IbmWatsonClassifierApiClassifierId,
+
+            MailChimpApiKey,
+            MailChimpListId
         }
 
         public static string Get(Settings.AppSettingKeys key)

@@ -25,5 +25,15 @@ namespace Common
 
             return $"{delta.Hours}h ago";
         }
+
+        public string GetUrl()
+        {
+            if(url == null)
+            {
+                return "https://news.ycombinator.com/item?id=" + hn_article_id;
+            }
+
+            return url;
+        }
     }
 }

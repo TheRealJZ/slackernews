@@ -9,19 +9,24 @@ using Common;
 using NewsFetcher.ApiResponseObjects;
 using System.Net;
 using NewsFetcher.Apis;
+using NewsFetcher.Newsletter;
+using MailChimp;
+using CommandLine;
+using CommandLine.Text;
 
 namespace NewsFetcher
 {
     class Program
     {
         readonly static string HackernewsApiUrl = Settings.Get(Settings.AppSettingKeys.HackernewsApiUrl);
-        
+                
         static void Main(string[] args)
         {
-            UpdateStatsForRecentArticles(24);
-            GetAndStoreMissingArticles(1000);
+            //UpdateStatsForRecentArticles(24);
+            //GetAndStoreMissingArticles(1000);
 
             // Testing -------
+            GenerateAndSendNewsletter();
             //GetSemantriaSummaryForUrl("foo");
             //GetAlchemyTagsForUrl("http://herokeys.com/why-link-building-is-important-in-seo/");
             //UpdateStatsForArticle(11980581);
@@ -30,6 +35,44 @@ namespace NewsFetcher
             //var classifier = new SectionClassifier();
             //var section = classifier.GetSectionFromText("Foo 29.0.0 is out");
             //int x = 5;
+        }
+
+        static void GenerateAndSendNewsletter()
+        {
+            // Load articles from db
+            var payload = NewsletterGenerator.GetLoadedPayload();
+
+            // @TODO: Create newsletter record in db
+            // @TODO: Associate articles with newsletter
+
+            // Create html for newsletter
+            string formattedArticles = NewsletterGenerator.FormatPayload(payload);
+            string template = System.IO.File.ReadAllText("Newsletter/SlackerWeeklyTemplate.html");
+            string email = template.Replace(NewsletterGenerator.TemplateReplacementTag, formattedArticles);
+            
+            // Upload via MailChimp API
+            //var mc = new MailChimp.Campaigns.Campaign();
+            MailChimpManager mc = new MailChimpManager(Settings.Get(Settings.AppSettingKeys.MailChimpApiKey));
+            string subject = payload.GetSubjectLine();
+            var response = mc.CreateCampaign("regular", new MailChimp.Campaigns.CampaignCreateOptions
+            {
+                ListId = Settings.Get(Settings.AppSettingKeys.MailChimpListId),
+                FromName = "Slacker Weekly",
+                FromEmail = "info@slackernews.io",
+                Subject = subject,
+                Title = "SlackerWeekly for " + DateTimeHelpers.ThisWeekFormatted, // For reporting purposes inside MailChimp
+                Authenticate = true, // SPF, DKIM, etc.
+                GenerateText = true // auto generate plaintext version from HTML version
+            },
+            new MailChimp.Campaigns.CampaignCreateContent {
+                HTML = email,
+
+            },
+            null,
+            null);
+
+            string campaignId = response.Id;
+            mc.SendCampaign(campaignId);
         }
 
         #region Fetching New
