@@ -26,11 +26,21 @@ namespace Common
             return $"{delta.Hours}h ago";
         }
 
+        public string GetFormattedTimeAsDayOfWeek()
+        {
+            return create_datetime.ToString("ddd") + create_datetime.ToString("ddMMM");
+        }
+
+        public string GetCommentsUrl()
+        {
+            return "https://news.ycombinator.com/item?id=" + hn_article_id;
+        }
+
         public string GetUrl()
         {
             if(url == null)
             {
-                return "https://news.ycombinator.com/item?id=" + hn_article_id;
+                return GetCommentsUrl();
             }
 
             return url;

@@ -14,27 +14,36 @@ namespace NewsFetcher.Newsletter
 
         internal string GetSubjectLine()
         {
+            string fallbackSubjectLine = "Slacker Weekly for " + DateTimeHelpers.ThisWeekFormatted;
+
             if (TopArticles == null || !TopArticles.Any())
             {
-                return "Slacker Weekly for " + DateTimeHelpers.ThisWeekFormatted;
+                return fallbackSubjectLine;
             }
 
-            int maxChars = 150;
+            int maxChars = 100;
             int curLength = 0;
             var titles = new List<string>();
-            foreach (var a in TopArticles)
+            foreach (var a in TopArticles.OrderByDescending(t => t.score))
             {
-                titles.Add(a.title);
+                curLength += a.title.Length;
 
-                curLength += a.title.Length + 3;
-
+                // Characters used to join titles together
+                if (titles.Count != 0)
+                {
+                    curLength += 3;
+                }
+                
                 if (curLength > maxChars)
                 {
                     break;
                 }
+
+                titles.Add(a.title);
             }
 
-            return string.Join(" — ", titles);
+            string subjectLine = string.Join(" — ", titles);
+            return !string.IsNullOrWhiteSpace(subjectLine) ? subjectLine : fallbackSubjectLine;
         }
     }
 }

@@ -19,12 +19,12 @@ namespace NewsFetcher.Newsletter
             };
 
             // Get articles from db
-            payload.TopArticles = Repository.GetArticles(10);
+            payload.TopArticles = Repository.GetArticles(10, Repository.Grouping.LastWeek);
 
             var sections = Repository.GetSections();
             foreach (var s in sections)
             {
-                var sectionArticles = Repository.GetArticles((Constants.Section)s.id, 5);
+                var sectionArticles = Repository.GetArticles((Constants.Section)s.id, 5, Repository.Grouping.LastWeek);
                 payload.Sections.Add(new NewsletterSection { Section = s, Articles = sectionArticles });
             }
 
@@ -35,8 +35,8 @@ namespace NewsFetcher.Newsletter
         {
             var sb = new StringBuilder();
             
-            sb.AppendLine(@"<h1 id=""ThisWeekInTech"">This week in tech</h1>");
-            sb.AppendLine("<p>" + DateTimeHelpers.ThisWeekFormatted + "</p>");
+            sb.AppendLine(@"<h1 id=""ThisWeekInTech"">The week in tech</h1>");
+            sb.AppendLine(@"<p id=""WeekDescription"">" + DateTimeHelpers.LastWeekFormatted + "</p>");
 
             // Top 10
             sb.AppendLine(@"<div class=""news-section""><h2 class=""section-heading"">Top 10 Hottest Stories</h2>");
@@ -88,11 +88,11 @@ namespace NewsFetcher.Newsletter
 
             sb.AppendLine(@"<div class=""news"">");
                 sb.Append(@"<div class=""news-left text-right"">");
-                    sb.Append(@"<a href=""https://news.ycombinator.com/item?id=@Model.hn_article_id"">");
-                    sb.Append(a.score + " pts<br /> " + a.GetFormattedTimeSinceCreated() + "</a>");
+                    sb.Append(@"<a href=""" + a.GetCommentsUrl() + @""">");
+                    sb.Append(a.score + " pts<br /> " + a.create_datetime.ToString("ddd") + "</a>");
                 sb.AppendLine("</div>");
                 sb.AppendLine(@"<div class=""news-body""><a href=""" + a.GetUrl() + @""">" + a.title + "</a></div>");
-            sb.AppendLine("/div>");
+            sb.AppendLine("</div>");
 
             return sb.ToString();
         }

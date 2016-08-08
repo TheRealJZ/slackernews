@@ -64,6 +64,16 @@ namespace Common
             }
         }
 
+        public static string LastWeekFormatted
+        {
+            get
+            {
+                var lastWeekStart = LastWeek;
+                var lastWeekEnd = lastWeekStart.AddDays(7).AddSeconds(-1);
+                return lastWeekStart.ToString("ddd, MMM dd") + " - " + lastWeekEnd.ToString("ddd, MMM dd");
+            }
+        }
+
         public static DateTime ThisMonth
         {
             get

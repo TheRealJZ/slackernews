@@ -16,17 +16,59 @@ using CommandLine.Text;
 
 namespace NewsFetcher
 {
+    class UpdateNewsSubOptions
+    {
+    }
+
+    class SendNewletterSubOptions
+    {
+    }
+
+    class Options
+    {
+        [VerbOption("update-news", HelpText = "Pull from APIs to update stories.")]
+        public UpdateNewsSubOptions UpdateNewsVerb { get; set; }
+
+        [VerbOption("send-newsletter", HelpText = "Compile and immediately send newsletter to email subscribers.")]
+        public SendNewletterSubOptions SendNewsletterVerb { get; set; }
+    }
+
     class Program
     {
         readonly static string HackernewsApiUrl = Settings.Get(Settings.AppSettingKeys.HackernewsApiUrl);
                 
         static void Main(string[] args)
         {
-            //UpdateStatsForRecentArticles(24);
-            //GetAndStoreMissingArticles(1000);
+            string invokedVerb = string.Empty;
+            object invokedVerbInstance;
+
+            var options = new Options();
+            if (!Parser.Default.ParseArguments(args, options,
+              (verb, subOptions) =>
+              {
+                  // if parsing succeeds the verb name and correct instance
+                  // will be passed to onVerbCommand delegate (string,object)
+                  invokedVerb = verb;
+                  invokedVerbInstance = subOptions;
+              }))
+            {
+                Environment.Exit(Parser.DefaultExitCodeFail);
+            }
+
+            switch(invokedVerb)
+            {
+                case "update-news":
+                    UpdateStatsForRecentArticles(24);
+                    GetAndStoreMissingArticles(1000);
+                    break;
+                case "send-newsletter":
+                    GenerateAndSendNewsletter();
+                    break;
+                default:
+                    break;
+            }
 
             // Testing -------
-            GenerateAndSendNewsletter();
             //GetSemantriaSummaryForUrl("foo");
             //GetAlchemyTagsForUrl("http://herokeys.com/why-link-building-is-important-in-seo/");
             //UpdateStatsForArticle(11980581);
@@ -40,6 +82,7 @@ namespace NewsFetcher
         static void GenerateAndSendNewsletter()
         {
             // Load articles from db
+            // NOTE: articles selected tightly coupled to datetime when this method is run
             var payload = NewsletterGenerator.GetLoadedPayload();
 
             // @TODO: Create newsletter record in db
@@ -71,6 +114,10 @@ namespace NewsFetcher
             null,
             null);
 
+            // Control scheduling by when you call this method, i.e. windows task scheduler
+            // Target is 5pm UTC Mondays, which translates to:
+            // 9am PST Monday
+            // 10am PDT Monday
             string campaignId = response.Id;
             mc.SendCampaign(campaignId);
         }
