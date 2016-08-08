@@ -21,10 +21,14 @@ Phase 3
 
 Phase 4
 - <strike>Ability to handle HackerNews load</strike>
-- Show HackerNews post
-- Polish website and email experience, respond to HN feedback
+- <strike>Show HackerNews post</strike>
+- <strike>Polish website and email experience, respond to HN feedback</strike>
 
-Phase 5
+Phase 5 - Polish, get to release 1.0
+- See milestone Phase 5
+- Get more feedback from HN community after repositioning message
+
+Phase 6 - Improvements to Semantic Analysis
 - Machine Learning
 - Semantic summaries 
 - Tagging
