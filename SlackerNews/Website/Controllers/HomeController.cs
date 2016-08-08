@@ -43,6 +43,18 @@ namespace Website.Controllers
             return View();
         }
 
+        [OutputCache(Duration = 600, VaryByParam = "groupBy")]
+        public ActionResult Hottest(Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
+        {
+            // @TODO: replace with more scalable method
+            var sections = Repository.GetSections();
+            ViewBag.Sections = sections;
+            ViewBag.GroupBy = groupBy;
+
+            var articles = Repository.GetArticles(15, groupBy);
+            return View(articles);
+        }
+
         [OutputCache(Duration = 600, VaryByParam = "section;groupBy")]
         public ActionResult Section(Constants.Section section, Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
         {

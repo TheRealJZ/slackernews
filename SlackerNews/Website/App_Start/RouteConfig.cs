@@ -38,6 +38,11 @@ namespace Website
             routes.AddCustomRoute("security-alerts", Constants.Section.Outages);
 
             routes.MapRoute(
+                name: "Hottest",
+                url: "hottest",
+                defaults: new { Controller = "Home", action = "Hottest" });
+
+            routes.MapRoute(
                 name: "About",
                 url: "about",
                 defaults: new { Controller = "Home", action = "About" });
