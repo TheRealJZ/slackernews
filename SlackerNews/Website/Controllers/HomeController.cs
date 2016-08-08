@@ -18,6 +18,8 @@ namespace Website.Controllers
                 Data = new List<DisplaySectionModel>()
             };
 
+            model.TopArticles = Repository.GetArticles(10);
+
             var sections = Repository.GetSections();
             foreach(var s in sections)
             {
