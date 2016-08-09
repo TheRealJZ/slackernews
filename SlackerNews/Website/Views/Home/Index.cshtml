@@ -5,9 +5,30 @@
 }
 
 <h1 id="ThisWeekInTech">
-    <span class="hidden-xs"><small>@DateTimeHelpers.ThisWeekFormatted</small><br /></span>
-    This week in tech<span class="hidden-xs"> - Top Stories by Section</span>
+    This week in tech<span class="hidden-xs"> - Top Stories by Section</span><br />
+    <span><small>@DateTimeHelpers.ThisWeekFormatted</small><br /></span>
 </h1>
+
+
+<div class="news-section">
+    <h2 class="section-heading">Top 10 Hottest Stories</h2>
+    @if (Model != null && Model.TopArticles != null && Model.TopArticles.Any())
+    {
+        <div class="news-list">
+            @foreach (var a in Model.TopArticles)
+            {
+                Html.RenderPartial("_article", a);
+            }
+        </div>
+        <span class="news-more">
+            <a href="@Url.Action("Hottest")">See all hottest stories <span class="glyphicon glyphicon-arrow-right"></span></a>
+        </span>
+    }
+    else
+    {
+        <div>Check back later for more top stories</div>
+    }
+</div>
 
 @if (Model != null && Model.Data != null && Model.Data.Any())
 {
@@ -33,8 +54,4 @@
             }
         </div>
     }
-}
-else
-{
-    @: Check back later for more top stories
 }

@@ -8,6 +8,7 @@ namespace Website.Models
 {
     public class HomePageModel
     {
+        public List<article> TopArticles { get; set; }
         public List<DisplaySectionModel> Data { get; set; }
     }
 }

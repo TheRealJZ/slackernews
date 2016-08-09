@@ -209,13 +209,15 @@
     <Content Include="Content\images\favicon-96x96.png" />
     <Content Include="Content\images\favicon.ico" />
     <Content Include="Content\images\JZSealLogoDarkOrange230x230.png" />
+    <Content Include="Content\images\linkedin\In-2CRev-21px-R.png" />
+    <Content Include="Content\images\linkedin\In-2CRev-48px-R.png" />
     <Content Include="Content\images\ms-icon-144x144.png" />
     <Content Include="Content\images\ms-icon-150x150.png" />
     <Content Include="Content\images\ms-icon-310x310.png" />
     <Content Include="Content\images\ms-icon-70x70.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Content\Site03.css" />
+    <Content Include="Content\Site04.css" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -240,6 +242,7 @@
     <Content Include="Views\Shared\_mailchimpSignup.cshtml" />
     <Content Include="Views\Shared\_mailchimpSignupFooter.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\Hottest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

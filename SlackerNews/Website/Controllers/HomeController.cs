@@ -18,6 +18,8 @@ namespace Website.Controllers
                 Data = new List<DisplaySectionModel>()
             };
 
+            model.TopArticles = Repository.GetArticles(10);
+
             var sections = Repository.GetSections();
             foreach(var s in sections)
             {
@@ -39,6 +41,18 @@ namespace Website.Controllers
             ViewBag.Sections = sections;
 
             return View();
+        }
+
+        [OutputCache(Duration = 600, VaryByParam = "groupBy")]
+        public ActionResult Hottest(Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
+        {
+            // @TODO: replace with more scalable method
+            var sections = Repository.GetSections();
+            ViewBag.Sections = sections;
+            ViewBag.GroupBy = groupBy;
+
+            var articles = Repository.GetArticles(15, groupBy);
+            return View(articles);
         }
 
         [OutputCache(Duration = 600, VaryByParam = "section;groupBy")]

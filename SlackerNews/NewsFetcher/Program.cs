@@ -9,17 +9,64 @@ using Common;
 using NewsFetcher.ApiResponseObjects;
 using System.Net;
 using NewsFetcher.Apis;
+using NewsFetcher.Newsletter;
+using MailChimp;
+using CommandLine;
+using CommandLine.Text;
 
 namespace NewsFetcher
 {
+    class UpdateNewsSubOptions
+    {
+    }
+
+    class SendNewletterSubOptions
+    {
+    }
+
+    class Options
+    {
+        [VerbOption("update-news", HelpText = "Pull from APIs to update stories.")]
+        public UpdateNewsSubOptions UpdateNewsVerb { get; set; }
+
+        [VerbOption("send-newsletter", HelpText = "Compile and immediately send newsletter to email subscribers.")]
+        public SendNewletterSubOptions SendNewsletterVerb { get; set; }
+    }
+
     class Program
     {
         readonly static string HackernewsApiUrl = Settings.Get(Settings.AppSettingKeys.HackernewsApiUrl);
-        
+                
         static void Main(string[] args)
         {
-            UpdateStatsForRecentArticles(24);
-            GetAndStoreMissingArticles(1000);
+            string invokedVerb = string.Empty;
+            object invokedVerbInstance;
+
+            var options = new Options();
+            if (!Parser.Default.ParseArguments(args, options,
+              (verb, subOptions) =>
+              {
+                  // if parsing succeeds the verb name and correct instance
+                  // will be passed to onVerbCommand delegate (string,object)
+                  invokedVerb = verb;
+                  invokedVerbInstance = subOptions;
+              }))
+            {
+                Environment.Exit(Parser.DefaultExitCodeFail);
+            }
+
+            switch(invokedVerb)
+            {
+                case "update-news":
+                    UpdateStatsForRecentArticles(24);
+                    GetAndStoreMissingArticles(1000);
+                    break;
+                case "send-newsletter":
+                    GenerateAndSendNewsletter();
+                    break;
+                default:
+                    break;
+            }
 
             // Testing -------
             //GetSemantriaSummaryForUrl("foo");
@@ -30,6 +77,52 @@ namespace NewsFetcher
             //var classifier = new SectionClassifier();
             //var section = classifier.GetSectionFromText("Foo 29.0.0 is out");
             //int x = 5;
+        }
+
+        static void GenerateAndSendNewsletter()
+        {
+            // Load articles from db
+            // NOTE: articles selected tightly coupled to datetime when this method is run
+            var payload = NewsletterGenerator.GetLoadedPayload();
+
+            // @TODO: Create newsletter record in db
+            // @TODO: Associate articles with newsletter
+
+            // Create html for newsletter
+            string formattedArticles = NewsletterGenerator.FormatPayload(payload);
+            string template = System.IO.File.ReadAllText("Newsletter/SlackerWeeklyTemplate.html");
+            string email = template.Replace(NewsletterGenerator.TemplateReplacementTag, formattedArticles);
+            
+            // Upload via MailChimp API
+            //var mc = new MailChimp.Campaigns.Campaign();
+            MailChimpManager mc = new MailChimpManager(Settings.Get(Settings.AppSettingKeys.MailChimpApiKey));
+            string subject = payload.GetSubjectLine();
+            var response = mc.CreateCampaign("regular", new MailChimp.Campaigns.CampaignCreateOptions
+            {
+                ListId = Settings.Get(Settings.AppSettingKeys.MailChimpListId),
+                FromName = "Slacker Weekly",
+                FromEmail = "info@slackernews.io",
+                Subject = subject,
+                Title = "SlackerWeekly for " + DateTimeHelpers.ThisWeekFormatted, // For reporting purposes inside MailChimp
+                Authenticate = true, // SPF, DKIM, etc.
+                GenerateText = true, // auto generate plaintext version from HTML version
+                InlineCSS = true
+            },
+            new MailChimp.Campaigns.CampaignCreateContent {
+                HTML = email,
+
+            },
+            null,
+            null);
+
+            // Control scheduling by when you call this method, i.e. windows task scheduler
+            // Target is 5pm UTC Mondays, which translates to:
+            // 9am PST Monday
+            // 10am PDT Monday
+            string campaignId = response.Id;
+            NLog.LogManager.GetCurrentClassLogger().Info("Created campaign on MailChimp. Received campaingId: " + campaignId);
+            mc.SendCampaign(campaignId);
+            NLog.LogManager.GetCurrentClassLogger().Info("Sent Campaign " + campaignId);
         }
 
         #region Fetching New

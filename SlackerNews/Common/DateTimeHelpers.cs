@@ -51,8 +51,8 @@ namespace Common
             get
             {
                 var thisWeekStart = ThisWeek;
-                var now = DateTime.UtcNow;
-                return thisWeekStart.ToString("ddd, MMM dd") + " - " + now.ToString("ddd, MMM dd");
+                var thisWeekEnd = thisWeekStart.AddDays(7).AddSeconds(-1);
+                return thisWeekStart.ToString("ddd, MMM dd") + " - " + thisWeekEnd.ToString("ddd, MMM dd");
             }
         }
 
@@ -61,6 +61,16 @@ namespace Common
             get
             {
                 return ThisWeek.AddDays(-7);
+            }
+        }
+
+        public static string LastWeekFormatted
+        {
+            get
+            {
+                var lastWeekStart = LastWeek;
+                var lastWeekEnd = lastWeekStart.AddDays(7).AddSeconds(-1);
+                return lastWeekStart.ToString("ddd, MMM dd") + " - " + lastWeekEnd.ToString("ddd, MMM dd");
             }
         }
 
