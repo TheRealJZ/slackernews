@@ -7,28 +7,11 @@ For when constantly checking HackerNews is just too much
 Hello! SlackerNews is a project with a goal of making the content of HackerNews easier and more relevant to consume.  We have an exciting roadmap of current feature ideas, and I'll be adding more as we go.  If you're passionate about making HackerNews more useful, give me a hand or two!
 
 # Roadmap
-Phase 1
-- <strike>Regularly pull HN data through FireBase api</strike>
-- <strike>Very simple website showing top x stories pulled</strike>
-
-Phase 2
-- <strike>Auto-categorization of content</strike>
-
-Phase 3
-- Email newsletter 
-- <strike>Set up analytics</strike>
-- <strike>Page load times</strike>
-
-Phase 4
-- <strike>Ability to handle HackerNews load</strike>
-- <strike>Show HackerNews post</strike>
-- <strike>Polish website and email experience, respond to HN feedback</strike>
-
-Phase 5 - Polish, get to release 1.0
+Polish, get to release 1.0
 - See milestone Phase 5
 - Get more feedback from HN community after repositioning message
 
-Phase 6 - Improvements to Semantic Analysis
+Improvements to Semantic Analysis
 - Machine Learning
 - Semantic summaries 
 - Tagging
