@@ -105,7 +105,8 @@ namespace NewsFetcher
                 Subject = subject,
                 Title = "SlackerWeekly for " + DateTimeHelpers.ThisWeekFormatted, // For reporting purposes inside MailChimp
                 Authenticate = true, // SPF, DKIM, etc.
-                GenerateText = true // auto generate plaintext version from HTML version
+                GenerateText = true, // auto generate plaintext version from HTML version
+                InlineCSS = true
             },
             new MailChimp.Campaigns.CampaignCreateContent {
                 HTML = email,
@@ -119,7 +120,9 @@ namespace NewsFetcher
             // 9am PST Monday
             // 10am PDT Monday
             string campaignId = response.Id;
+            NLog.LogManager.GetCurrentClassLogger().Info("Created campaign on MailChimp. Received campaingId: " + campaignId);
             mc.SendCampaign(campaignId);
+            NLog.LogManager.GetCurrentClassLogger().Info("Sent Campaign " + campaignId);
         }
 
         #region Fetching New

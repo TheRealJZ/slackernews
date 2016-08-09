@@ -42,12 +42,12 @@ namespace NewsFetcher.Newsletter
             sb.AppendLine(@"<div class=""news-section""><h2 class=""section-heading"">Top 10 Hottest Stories</h2>");
             if (payload.TopArticles != null && payload.TopArticles.Any())
             {
-                sb.AppendLine(@"<div class=""news-list"">");
+                sb.AppendLine(@"<table class=""news-list"">");
                 foreach (var a in payload.TopArticles)
                 {
                     sb.Append(FormatArticle(a));
                 }
-                sb.AppendLine("</div>");
+                sb.AppendLine("</table>");
             }
             else
             {
@@ -64,12 +64,12 @@ namespace NewsFetcher.Newsletter
                     sb.AppendLine(@"<div class=""news-section""><h2 class=""section-heading"">" + sModel.Section.name + "</h2>");
                     if (sModel.Articles != null && sModel.Articles.Any())
                     {
-                        sb.AppendLine(@"<div class=""news-list"">");
+                        sb.AppendLine(@"<table class=""news-list"">");
                         foreach (var a in sModel.Articles)
                         {
                             sb.Append(FormatArticle(a));
                         }
-                        sb.AppendLine("</div>");
+                        sb.AppendLine("</table>");
                     }
                     else
                     {
@@ -86,13 +86,13 @@ namespace NewsFetcher.Newsletter
         {
             var sb = new StringBuilder();
 
-            sb.AppendLine(@"<div class=""news"">");
-                sb.Append(@"<div class=""news-left text-right"">");
+            sb.AppendLine(@"<tr class=""news"">");
+                sb.Append(@"<td class=""news-left text-right"">");
                     sb.Append(@"<a href=""" + a.GetCommentsUrl() + @""">");
                     sb.Append(a.score + " pts<br /> " + a.create_datetime.ToString("ddd") + "</a>");
-                sb.AppendLine("</div>");
-                sb.AppendLine(@"<div class=""news-body""><a href=""" + a.GetUrl() + @""">" + a.title + "</a></div>");
-            sb.AppendLine("</div>");
+                sb.AppendLine("</td>");
+                sb.AppendLine(@"<td class=""news-body""><a href=""" + a.GetUrl() + @""">" + a.title + "</a></td>");
+            sb.AppendLine("</tr>");
 
             return sb.ToString();
         }

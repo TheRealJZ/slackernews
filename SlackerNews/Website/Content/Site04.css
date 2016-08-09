@@ -33,6 +33,7 @@ body {
     padding-top: 5px;
     padding-bottom: 20px;
     overflow-y: scroll;
+    font-family: "Futura Book","Open Sans",sans-serif;
 }
 
 .navbar {
