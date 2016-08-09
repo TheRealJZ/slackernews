@@ -64,3 +64,21 @@ Features
 - Delivered by email
 - Lacks online viewing of email newsletter content
 - Gives proejct owner a database of engaged users to target for other ideas
+
+## HN Daily
+http://www.daemonology.net/hn-daily/
+
+## HN Top Links
+http://www.hntoplinks.com/
+
+## Hacker Monthly
+http://hackermonthly.com/
+Features
+- Print-version
+- Curated by hand
+
+## Friday Dev/Design Roundup
+http://friday-design-dev-roundup.launchrock.com/
+https://www.reddit.com/r/web_design/comments/3wzp4u/for_the_busy_designer_a_weekly_digest_combining/?
+Features
+- Weekly newsletter combining DesignerNews and HackerNews
