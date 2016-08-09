@@ -82,3 +82,8 @@ http://friday-design-dev-roundup.launchrock.com/
 https://www.reddit.com/r/web_design/comments/3wzp4u/for_the_busy_designer_a_weekly_digest_combining/?
 Features
 - Weekly newsletter combining DesignerNews and HackerNews
+
+
+# Market Research
+## General Ideas about what people use as a news source
+https://news.ycombinator.com/item?id=9476097
