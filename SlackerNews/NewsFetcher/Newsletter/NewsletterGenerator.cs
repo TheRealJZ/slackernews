@@ -92,6 +92,7 @@ namespace NewsFetcher.Newsletter
                     sb.Append(a.score + " pts<br /> " + a.create_datetime.ToString("ddd") + "</a>");
                 sb.AppendLine("</td>");
                 sb.AppendLine(@"<td class=""news-body""><a href=""" + a.GetUrl() + @""">" + a.title + "</a></td>");
+                sb.AppendLine(@"<td class=""news-share""><a href=""" + a.GetShareOnLinkedInUrl() + @""">Share<br /><img alt=""LinkedIn"" src=""http://slackernews.io/content/images/linkedin/In-2CRev-21px-R.png""/></a></td>");
             sb.AppendLine("</tr>");
 
             return sb.ToString();

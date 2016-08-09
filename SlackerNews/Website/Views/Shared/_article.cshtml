@@ -2,7 +2,7 @@
 
 <div class="news">
     <div class="news-left text-right">
-        <a href="https://news.ycombinator.com/item?id=@Model.hn_article_id">
+        <a href="@Model.GetCommentsUrl()">
             @Model.score pts<br />@Model.GetFormattedTimeSinceCreated()
         </a>
     </div>

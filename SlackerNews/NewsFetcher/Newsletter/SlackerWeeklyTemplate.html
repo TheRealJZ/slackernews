@@ -152,8 +152,20 @@
             text-align: left;
         }
 
-        .news-list .news-left,
         .news-list .news-body {
+            border-right: 1px solid #888;
+            padding-right: 5px;
+        }
+
+        .news-list .news-share {
+            width: 100px;
+            width: 65px;
+            text-align: center;
+        }
+
+        .news-list .news-left,
+        .news-list .news-body,
+        .news-list .news-share {
             vertical-align: top;
             overflow:hidden;
             background-color: #fafafa;
@@ -162,12 +174,14 @@
         }
 
         .news-list .news-left a,
-        .news-list .news-body a {
+        .news-list .news-body a,
+        .news-list .news-share a {
             width: 100%;
         }
 
         .news-list .news-left a,
-        .news-list .news-body a {
+        .news-list .news-body a,
+        .news-list .news-share a {
             display: block;
             height: 100%;
             text-decoration: none;

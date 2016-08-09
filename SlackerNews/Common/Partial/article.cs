@@ -45,5 +45,13 @@ namespace Common
 
             return url;
         }
+
+        public string GetShareOnLinkedInUrl()
+        {
+            return "https://www.linkedin.com/shareArticle?mini=true&url=" 
+                + GetUrl() 
+                + "&title=" + title.Replace(" ", "%20") 
+                + "&summary=Find%20more%20stories%20like%20this%20at%20SlackerNews.io&source=http://slackernews.io";
+        }
     }
 }
