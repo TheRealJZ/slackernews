@@ -104,8 +104,8 @@
         </div>
 
         @{
-            bool? suppressSignup = ViewBag.SuppressSignupFooter;
-            if (suppressSignup != null && !(bool)suppressSignup)
+            bool? showFooter = ViewBag.ShowSignupFooter;
+            if (showFooter != null && (bool)showFooter)
             {
                 @Html.Partial("_mailchimpSignupFooter")
             }

@@ -45,6 +45,8 @@ namespace Website.Controllers
             }
             
             ViewBag.Sections = sections;
+
+            ViewBag.ShowSignupFooter = true;
         }
 
 #if DEBUG
@@ -62,7 +64,7 @@ namespace Website.Controllers
         public ActionResult SlackerWeekly()
         {
             SetNavLinks();
-            ViewBag.SuppressSignupFooter = true;
+            ViewBag.ShowSignupFooter = false;
             return View();
         }
 
