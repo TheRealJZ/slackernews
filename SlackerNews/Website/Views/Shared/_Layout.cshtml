@@ -87,6 +87,7 @@
                             </ul>
                         </li>
                     }
+                    <li><a href="@Url.Action("SlackerWeekly")">Slacker Weekly</a></li>
                     <li><a href="@Url.Action("About", "Home")">About</a></li>
                 </ul>
                 @*
@@ -102,7 +103,13 @@
             @RenderBody()
         </div>
 
-        @Html.Partial("_mailchimpSignupFooter")
+        @{
+            bool? showFooter = ViewBag.ShowSignupFooter;
+            if (showFooter != null && (bool)showFooter)
+            {
+                @Html.Partial("_mailchimpSignupFooter")
+            }
+        }
         
         <footer class="text-center bordered" style="margin-top: 30px; padding: 20px;">
             <p>
