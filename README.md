@@ -7,15 +7,20 @@ For when constantly checking HackerNews is just too much
 Hello! SlackerNews is a project with a goal of making the content of HackerNews easier and more relevant to consume.  We have an exciting roadmap of current feature ideas, and I'll be adding more as we go.  If you're passionate about making HackerNews more useful, give me a hand or two!
 
 # Roadmap
-Polish, get to release 1.0
-- See milestone Phase 5
-- Get more feedback from HN community after repositioning message
+1.0 - UI, Robustness Improvements
+- UI color scheme and web design
+- UX Navigation
+- Hard limits to ensure exceptions don't cause problems
 
 Improvements to Semantic Analysis
 - Machine Learning
 - Semantic summaries 
 - Tagging
 - Filtering using tags
+
+Search
+- Search by keyword across titles
+- Search comments
 
 # Contributing
 Contributions are welcome! Select an issue and start a conversation, or feel free to contact me directly about new feature suggestions.
