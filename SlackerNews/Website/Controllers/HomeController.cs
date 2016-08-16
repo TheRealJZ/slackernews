@@ -74,5 +74,18 @@ namespace Website.Controllers
             var articles = Repository.GetArticles(section, 15, groupBy);
             return View(articles);
         }
+
+        public ActionResult ByTag(string tag, Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
+        {
+            // @TODO: replace with more scalable method
+            var sections = Repository.GetSections();
+            ViewBag.Sections = sections;
+            ViewBag.GroupBy = groupBy;
+            ViewBag.TagUnsafe = tag;
+            ViewBag.TagHtmlEncoded = Server.HtmlEncode(tag);
+
+            var articles = Repository.GetArticlesByTag(tag, 15, groupBy);
+            return View(articles);
+        }
     }
 }

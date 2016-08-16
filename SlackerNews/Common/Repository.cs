@@ -88,7 +88,28 @@ namespace Common
                     .ToList();
             }
         }
-        
+
+        public static List<article> GetArticlesByTag(string tag, int numArticles = 15, Grouping groupBy = Grouping.ThisWeek)
+        {
+            using (var context = new SlackerNewsEntities())
+            {
+                DateTime start = StartForGrouping(groupBy);
+                DateTime end = EndForGrouping(groupBy);
+
+                string tagStripped = tag.ToLower().Trim();
+
+                return context.articles
+                    .Where(t => t.create_datetime > start && t.create_datetime < end 
+                        && (
+                            t.title.StartsWith(tagStripped + " ")
+                            || t.title.Contains(" " + tagStripped + " ")
+                            || t.title.EndsWith(" " + tagStripped)))
+                    .OrderByDescending(t => t.score)
+                    .Take(numArticles)
+                    .ToList();
+            }
+        }
+
         public static List<section> GetSections()
         {
             using (var context = new SlackerNewsEntities())

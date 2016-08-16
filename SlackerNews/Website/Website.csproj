@@ -253,6 +253,7 @@
     <Content Include="Views\Shared\_mailchimpSignupFooter.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Hottest.cshtml" />
+    <Content Include="Views\Home\ByTag.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

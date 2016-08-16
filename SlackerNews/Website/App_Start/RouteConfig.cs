@@ -36,7 +36,7 @@ namespace Website
             routes.AddCustomRoute("science", Constants.Section.Science);
             routes.AddCustomRoute("world-news", Constants.Section.WorldNews);
             routes.AddCustomRoute("security-alerts", Constants.Section.Outages);
-
+            
             routes.MapRoute(
                 name: "Hottest",
                 url: "hottest",
@@ -47,6 +47,12 @@ namespace Website
                 url: "about",
                 defaults: new { Controller = "Home", action = "About" });
             
+            routes.MapRoute(
+                name: "ByTag",
+                url: "tag/{tag}",
+                defaults: new { Controller = "Home", action = "ByTag" }
+                );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

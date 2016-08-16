@@ -1,0 +1,38 @@
+﻿@using Common
+@model List<Common.article>
+@{
+    ViewBag.Title = "Slacker News Hottest Stories";
+}
+
+<h1>Top 15 <i>@ViewBag.TagHtmlEncoded</i> Stories</h1>
+
+<ul class="nav nav-pills">
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.ThisWeek ? "active" : "")">
+        <a href="@Url.Action("ByTag", new { Tag = ViewBag.TagUnsafe, groupBy = Repository.Grouping.ThisWeek })">This Week</a>
+    </li>
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.LastWeek ? "active" : "")">
+        <a href="@Url.Action("ByTag", new { Tag = ViewBag.TagUnsafe,groupBy = Repository.Grouping.LastWeek })">Last Week</a>
+    </li>
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.ThisMonth ? "active" : "")">
+        <a href="@Url.Action("ByTag", new { Tag = ViewBag.TagUnsafe,groupBy = Repository.Grouping.ThisMonth })">This Month</a>
+    </li>
+    <li role="presentation" class="@(ViewBag.GroupBy == Repository.Grouping.LastMonth ? "active" : "")">
+        <a href="@Url.Action("ByTag", new { Tag = ViewBag.TagUnsafe,groupBy = Repository.Grouping.LastMonth })">Last Month</a>
+    </li>
+</ul>
+
+@if (Model != null && Model.Any())
+{
+    <div class="news-list">
+        @foreach (var article in Model)
+        {
+            Html.RenderPartial("_article", article);
+        }
+    </div>
+}
+else
+{
+    @: No recent articles, please check back later!
+}
+
+
