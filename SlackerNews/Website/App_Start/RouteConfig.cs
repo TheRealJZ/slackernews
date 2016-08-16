@@ -46,7 +46,12 @@ namespace Website
                 name: "About",
                 url: "about",
                 defaults: new { Controller = "Home", action = "About" });
-            
+
+            routes.MapRoute(
+                name: "SlackerWeekly",
+                url: "slackerweekly",
+                defaults: new { Controller = "Home", action = "SlackerWeekly" });
+
             routes.MapRoute(
                 name: "ByTag",
                 url: "tag/{tag}",

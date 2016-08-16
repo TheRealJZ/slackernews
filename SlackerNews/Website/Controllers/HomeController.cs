@@ -10,7 +10,11 @@ namespace Website.Controllers
 {
     public class HomeController : Controller
     {
+#if DEBUG
+// Don't cache output when developing
+#else
         [OutputCache(Duration = 600, VaryByParam = "none")]
+#endif
         public ActionResult Index()
         {
             var model = new HomePageModel
@@ -27,35 +31,62 @@ namespace Website.Controllers
                 model.Data.Add(new DisplaySectionModel { Section = s, Articles = sectionArticles });
             }
 
-            // @TODO: replace with more scalable method
-            ViewBag.Sections = sections;
+            SetNavLinks(sections);
 
             return View(model);
         }
 
-        [OutputCache(Duration = 600, VaryByParam = "none")]
-        public ActionResult About()
+        private void SetNavLinks(List<section> sections = null)
         {
             // @TODO: replace with more scalable method
-            var sections = Repository.GetSections();
+            if(sections == null)
+            {
+                sections = Repository.GetSections();
+            }
+            
             ViewBag.Sections = sections;
 
+            ViewBag.ShowSignupFooter = true;
+        }
+
+#if DEBUG
+// Don't cache output when developing
+#else
+        // Cache for 12hours - 60*60*12 = 43,200 seconds
+        [OutputCache(Duration = 43200, VaryByParam = "none")]
+#endif
+        public ActionResult About()
+        {
+            SetNavLinks();
             return View();
         }
 
+        public ActionResult SlackerWeekly()
+        {
+            SetNavLinks();
+            ViewBag.ShowSignupFooter = false;
+            return View();
+        }
+
+#if DEBUG
+// Don't cache output when developing
+#else
         [OutputCache(Duration = 600, VaryByParam = "groupBy")]
+#endif
         public ActionResult Hottest(Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
         {
-            // @TODO: replace with more scalable method
-            var sections = Repository.GetSections();
-            ViewBag.Sections = sections;
+            SetNavLinks();
             ViewBag.GroupBy = groupBy;
 
             var articles = Repository.GetArticles(15, groupBy);
             return View(articles);
         }
 
+#if DEBUG
+// Don't cache output when developing
+#else
         [OutputCache(Duration = 600, VaryByParam = "section;groupBy")]
+#endif
         public ActionResult Section(Constants.Section section, Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
         {
             var sectionEntry = Repository.GetSection(section);
@@ -64,10 +95,9 @@ namespace Website.Controllers
                 return HttpNotFound();
             }
             ViewBag.SectionName = sectionEntry.name;
-
+                        
+            SetNavLinks();
             // @TODO: replace with more scalable method
-            var sections = Repository.GetSections();
-            ViewBag.Sections = sections;
             ViewBag.SectionId = (int)section;
             ViewBag.GroupBy = groupBy;
 

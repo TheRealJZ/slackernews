@@ -9,7 +9,11 @@ namespace Website {
     public static class RazorGeneratorMvcStart {
         public static void Start() {
             var engine = new PrecompiledMvcEngine(typeof(RazorGeneratorMvcStart).Assembly) {
-                UsePhysicalViewsIfNewer = false // HttpContext.Current.Request.IsLocal
+#if DEBUG
+                UsePhysicalViewsIfNewer = true
+#else
+                UsePhysicalViewsIfNewer = false
+#endif
             };
 
             ViewEngines.Engines.Insert(0, engine);
