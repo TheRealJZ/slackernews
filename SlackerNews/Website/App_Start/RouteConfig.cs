@@ -12,12 +12,11 @@ namespace Website
 
         public static void AddCustomRoute(this RouteCollection routes, string routeText, Constants.Section section)
         {
-            string sectionName = Enum.GetName(typeof(Constants.Section), section);
-            
+            string routeName = "sections/" + routeText;
             routes.MapRoute(
-                "sections/" + sectionName,
-                routeText,
-                new { Controller = "Home", action = "Section", section = (int)section });
+                name: routeName,
+                url: routeName,
+                defaults: new { Controller = "Home", action = "Section", section = (int)section });
         }
     }
 
@@ -51,6 +50,11 @@ namespace Website
                 name: "SlackerWeekly",
                 url: "slackerweekly",
                 defaults: new { Controller = "Home", action = "SlackerWeekly" });
+
+            routes.MapRoute(
+                name: "Search",
+                url: "search",
+                defaults: new { Controller = "Home", action = "Search" });
 
             routes.MapRoute(
                 name: "ByTag",

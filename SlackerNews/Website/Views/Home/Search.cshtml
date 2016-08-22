@@ -1,0 +1,95 @@
+﻿@using System.Collections
+@using System.Collections.Specialized
+@{ 
+    var commonTags = new OrderedDictionary();
+    commonTags.Add("Technology", new List<string>
+    {
+        "python",
+        "javascript",
+        "java",
+        "go",
+        "ruby",
+        "scala",
+        "react",
+        "angular",
+        "linux",
+        "aws",
+        "gce",
+        "azure"
+    });
+
+    commonTags.Add("Concepts", new List<string>
+    {
+        "design",
+        "security",
+        "cloud",
+        "bigdata",
+        "agile"
+    });
+
+    commonTags.Add("Startups", new List<string>
+    {
+        "aquisition",
+        "series",
+        "startup",
+        "stock",
+        "hiring",
+        "yc",
+        "usv",
+        "greylock"
+    });
+
+    commonTags.Add("Tech Companies", new List<string>
+    {
+        "google",
+        "microsoft",
+        "apple",
+        "amazon",
+        "ibm",
+        "netflix",
+        "cisco"
+    });
+
+}
+
+<div class="row" style="margin-top: 20px; margin-bottom: 50px;">
+    <div class="text-center col-md-6 col-md-offset-3">
+        <h1>Search for Tech that Interests You</h1>
+        <form class="form-inline" method="GET" action="Home/ByTag">
+            <div class="form-group">
+                <div class="input-group">
+                    <input type="text" name="tag" class="form-control" placeholder="python..." />
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4>Discover Popular Search Terms</h4>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            @foreach (DictionaryEntry d in commonTags)
+            {
+                var keywords = (List<string>)d.Value;
+                <div class="col-xs-6 col-sm-3">
+                    <h3>@d.Key</h3>
+                    @if (keywords != null && keywords.Any())
+                {
+                        <ul style="list-style: none; padding-left: 20px">
+                            @foreach (var kw in keywords)
+                    {
+                                <li><a href="@Url.RouteUrl("ByTag", new { tag = kw })">@kw</a></li>
+                            }
+                        </ul>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</div>

@@ -105,6 +105,11 @@ namespace Website.Controllers
             return View(articles);
         }
 
+#if DEBUG
+        // Don't cache output when developing
+#else
+        [OutputCache(Duration = 600, VaryByParam = "tag;groupBy")]
+#endif
         public ActionResult ByTag(string tag, Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
         {
             // @TODO: replace with more scalable method
@@ -116,6 +121,18 @@ namespace Website.Controllers
 
             var articles = Repository.GetArticlesByTag(tag, 15, groupBy);
             return View(articles);
+        }
+
+#if DEBUG
+        // Don't cache output when developing
+#else
+        // Cache for 12hours - 60*60*12 = 43,200 seconds
+        [OutputCache(Duration = 43200)]
+#endif
+        public ActionResult Search()
+        {
+            SetNavLinks();
+            return View();
         }
     }
 }

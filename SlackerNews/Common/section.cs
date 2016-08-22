@@ -23,6 +23,7 @@ namespace Common
         public int id { get; set; }
         public string name { get; set; }
         public int display_order { get; set; }
+        public string seo_route { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<article> articles { get; set; }

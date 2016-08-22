@@ -74,7 +74,7 @@
             </div>
             <div class="collapse navbar-collapse" id="navbar-collapse-target">
                 <ul class="nav navbar-nav">
-                    <li><a href="@Url.Action("Hottest")">Hottest Stories</a></li>
+                    <li><a href="@Url.RouteUrl("Hottest")">Hottest Stories</a></li>
                     @if (ViewBag.Sections != null)
                     {
                         <li class="dropdown">
@@ -82,13 +82,14 @@
                             <ul class="dropdown-menu">
                                 @foreach (var s in ViewBag.Sections)
                                 {
-                                    <li><a href="@Url.Action("Section", new { section = s.id })">@s.name</a></li>
+                                    <li><a href="@Url.RouteUrl(s.seo_route)">@s.name</a></li>
                                 }
                             </ul>
                         </li>
                     }
-                    <li><a href="@Url.Action("SlackerWeekly")">Slacker Weekly</a></li>
-                    <li><a href="@Url.Action("About", "Home")">About</a></li>
+                    <li><a href="@Url.RouteUrl("Search")">Search</a></li>
+                    <li><a href="@Url.RouteUrl("SlackerWeekly")">Slacker Weekly</a></li>
+                    <li><a href="@Url.RouteUrl("About")">About</a></li>
                 </ul>
                 @*
                     Address how to have two mailchimp signup forms in a single page later.  IDs are conflicting, and this is not top priority.

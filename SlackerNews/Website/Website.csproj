@@ -256,6 +256,7 @@
     <Content Include="Views\Home\Hottest.cshtml" />
     <Content Include="Views\Home\ByTag.cshtml" />
     <Content Include="Views\Home\SlackerWeekly.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

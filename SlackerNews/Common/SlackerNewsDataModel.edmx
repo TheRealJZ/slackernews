@@ -30,6 +30,7 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="display_order" Type="int" Nullable="false" />
+          <Property Name="seo_route" Type="varchar" MaxLength="100" />
         </EntityType>
         <Association Name="FK_articles_section">
           <End Role="sections" Type="Self.sections" Multiplicity="0..1" />
@@ -90,6 +91,7 @@
           <Property Name="name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="display_order" Type="Int32" Nullable="false" />
           <NavigationProperty Name="articles" Relationship="SlackerNewsModel.FK_articles_section" FromRole="section" ToRole="article" />
+          <Property Name="seo_route" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
         </EntityType>
         <Association Name="FK_articles_section">
           <End Type="SlackerNewsModel.section" Role="section" Multiplicity="0..1" />
@@ -131,6 +133,7 @@
           <EntitySetMapping Name="sections">
             <EntityTypeMapping TypeName="SlackerNewsModel.section">
               <MappingFragment StoreEntitySet="sections">
+                <ScalarProperty Name="seo_route" ColumnName="seo_route" />
                 <ScalarProperty Name="display_order" ColumnName="display_order" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
