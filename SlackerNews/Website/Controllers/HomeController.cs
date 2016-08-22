@@ -112,9 +112,7 @@ namespace Website.Controllers
 #endif
         public ActionResult ByTag(string tag, Repository.Grouping groupBy = Repository.Grouping.ThisWeek)
         {
-            // @TODO: replace with more scalable method
-            var sections = Repository.GetSections();
-            ViewBag.Sections = sections;
+            SetNavLinks();
             ViewBag.GroupBy = groupBy;
             ViewBag.TagUnsafe = tag;
             ViewBag.TagHtmlEncoded = Server.HtmlEncode(tag);
