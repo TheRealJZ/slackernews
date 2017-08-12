@@ -30,14 +30,43 @@ h6, .h6 {
 }
 
 body {
-    padding-top: 5px;
-    padding-bottom: 20px;
     overflow-y: scroll;
     font-family: "Futura Book","Open Sans",sans-serif;
 }
 
+.section {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.bordered {
+    border-top: 2px solid #ea7c0e;
+}
+
+/* #region Navbar */
 .navbar {
+    border-top: none;
+    border-left: none;
+    border-right: none;
     margin-bottom: 5px;
+}
+
+.container > .navbar-header {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.navbar-default {
+    background-color: white;
+}
+
+.navbar-brand {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #ea7c0e;
 }
 
 .nav-pills > li.active > a, 
@@ -52,10 +81,21 @@ body {
     margin-bottom: 5px;
 }
 
+.navbar-toggle {
+    margin-right: 0;
+}
+
+/* #endregion*/
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+}
+
+.btn {
+    background-color: #ea7c0e;
+    color: white;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -65,21 +105,6 @@ body {
     white-space: normal;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-.bordered {
-    border-top: 2px solid #ea7c0e;
-}
-
-.bordered-subtle {
-    border-top: 1px solid #ccc;
-}
-
 @media (max-width:768px) {
     /* Maximize screen real-estate by taking it to the edges of the phone, 15px is just too much wasted space */
     .container {
@@ -87,17 +112,14 @@ textarea {
         padding-right:5px;
     }
 }
-
+/*
 .section-heading {
     border-bottom: 1px solid #ccc;
-}
+}*/
 
-#ThisWeekInTech {
-    margin-bottom: 30px;
-}
-
+/* #region News */
 .news-section {
-    margin-bottom: 20px;
+ /*   margin-bottom: 20px; */
 }
 
 .news-section h1,
@@ -105,9 +127,15 @@ textarea {
     margin-bottom: 5px;
 }
 
+.news-list-wrapper {
+    margin: 0 -2px;
+}
+
 .news-list {
     display:table;
-    border-spacing: 5px;
+    border-spacing: 2px;
+    border-collapse: collapse;
+    line-height: 14px;
     width:100%;
 }
 
@@ -116,7 +144,7 @@ textarea {
 }
 
 .news-list .news-left {
-    width: 75px;
+    width: 40px;
 }
 
 .news-list .news-left,
@@ -124,9 +152,9 @@ textarea {
     display: table-cell;
     vertical-align: top;
     overflow:hidden;
-    background-color: #fafafa;
-    height: 50px;
-    box-shadow: 1px 2px 2px #888;
+    height: 40px;
+    border: 1px solid lightgray;
+    border-radius: 2px; 
 }
 
 .news-list .news-left a,
@@ -158,3 +186,5 @@ textarea {
     text-decoration: none;
     padding: 15px 5px;
 }
+
+/* #endregion */

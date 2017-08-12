@@ -1,10 +1,8 @@
 ﻿@model Common.article
 
 <div class="news">
-    <div class="news-left text-right">
-        <a href="@Model.GetCommentsUrl()">
-            @Model.score pts<br />@Model.GetFormattedTimeSinceCreated()
-        </a>
+    <div class="news-left text-center">
+        <a href="@Model.GetCommentsUrl()"><span class="fa fa-caret-up"></span><br />@Model.score</a>
     </div>
     <div class="news-body">
         <a href="@Model.GetUrl()">@Model.title</a>

@@ -68,7 +68,7 @@ namespace Common
                     .Where(t => t.create_datetime > start && t.create_datetime < end)
                     .OrderByDescending(t => t.score)
                     .Take(numArticles)
-                    .OrderByDescending(t => t.create_datetime)
+             //       .OrderByDescending(t => t.create_datetime)
                     .ToList();
             }
         } 
@@ -84,7 +84,7 @@ namespace Common
                     .Where(t => t.create_datetime > start && t.create_datetime < end && t.section_id == (int)section)
                     .OrderByDescending(t => t.score)
                     .Take(numArticles)
-                    .OrderByDescending(t => t.create_datetime)
+                   // .OrderByDescending(t => t.create_datetime)
                     .ToList();
             }
         }

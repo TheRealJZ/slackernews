@@ -14,7 +14,7 @@ namespace NewsFetcher.Newsletter
 
         internal string GetSubjectLine()
         {
-            string fallbackSubjectLine = "Slacker Weekly for " + DateTimeHelpers.ThisWeekFormatted;
+            string fallbackSubjectLine = "Slacker Weekly for " + DateTimeHelpers.LastWeekFormatted;
 
             if (TopArticles == null || !TopArticles.Any())
             {

@@ -4,54 +4,28 @@
     ViewBag.Title = "Slacker News - Top Hacker News Stories";
 }
 
-<h1 id="ThisWeekInTech">
-    This week in tech<span class="hidden-xs"> - Top Stories by Section</span><br />
-    <span><small>@DateTimeHelpers.ThisWeekFormatted</small><br /></span>
-</h1>
-
-
-<div class="news-section">
-    <h2 class="section-heading">Top 10 Hottest Stories</h2>
-    @if (Model != null && Model.TopArticles != null && Model.TopArticles.Any())
-    {
-        <div class="news-list">
-            @foreach (var a in Model.TopArticles)
-            {
-                Html.RenderPartial("_article", a);
-            }
-        </div>
-        <span class="news-more">
-            <a href="@Url.Action("Hottest")">See all hottest stories <span class="glyphicon glyphicon-arrow-right"></span></a>
-        </span>
-    }
-    else
-    {
-        <div>Check back later for more top stories</div>
-    }
+<div class="section text-center">
+    <h2>The best of HackerNews</h2>
+    @{ Html.RenderPartial("_searchBox"); }
 </div>
 
-@if (Model != null && Model.Data != null && Model.Data.Any())
-{
-    foreach (var sModel in Model.Data)
-    {
-        <div class="news-section">
-            <h2 class="section-heading">@sModel.Section.name</h2>
-            @if (sModel.Articles != null && sModel.Articles.Any())
-            {
+<div class="section bordered">
+    <div class="news-section">
+        <h2 class="section-heading"><span class="fa fa-fire"></span> Hot Stories</h2>
+        @if (Model != null && Model.TopArticles != null && Model.TopArticles.Any())
+        {
+            <div class="news-list-wrapper">
                 <div class="news-list">
-                    @foreach (var a in sModel.Articles)
-                    {
-                        Html.RenderPartial("_article", a);
-                    }
+                    @foreach (var a in Model.TopArticles)
+                {
+                    Html.RenderPartial("_article", a);
+                }
                 </div>
-                <span class="news-more">
-                    <a href="@Url.Action("Section", new { section = sModel.Section.id })">See all @sModel.Section.name stories <span class="glyphicon glyphicon-arrow-right"></span></a>
-                </span>
-            }
-            else
-            {
-                <div>No articles in this section, check back later</div>
-            }
-        </div>
-    }
-}
+            </div>
+        }
+        else
+        {
+            <div>Check back later for more top stories</div>
+        }
+    </div>
+</div>

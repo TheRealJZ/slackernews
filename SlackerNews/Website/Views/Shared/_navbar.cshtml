@@ -1,0 +1,32 @@
+﻿<nav class="navbar navbar-default">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse-target" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">SlackerNews</a>
+    </div>
+    <div class="collapse navbar-collapse" id="navbar-collapse-target">
+        <ul class="nav navbar-nav">
+            <li><a href="@Url.RouteUrl("Hottest")">Hottest Stories</a></li>
+            @if (ViewBag.Sections != null)
+            {
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">Sections <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        @foreach (var s in ViewBag.Sections)
+                        {
+                            <li><a href="@Url.RouteUrl(s.seo_route)">@s.name</a></li>
+                        }
+                    </ul>
+                </li>
+            }
+            <li><a href="@Url.RouteUrl("Search")">Search</a></li>
+            <li><a href="@Url.RouteUrl("SlackerWeekly")">Slacker Weekly</a></li>
+            <li><a href="@Url.RouteUrl("About")">About</a></li>
+        </ul>
+    </div>
+</nav>
